@@ -1,0 +1,2 @@
+some examples for SpecificationArgumentResolver
+===============================================
