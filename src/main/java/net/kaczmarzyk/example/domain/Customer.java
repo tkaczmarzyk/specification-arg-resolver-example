@@ -12,6 +12,8 @@ public class Customer {
     @Id @GeneratedValue
     private Long id;
     
+    private String gender;
+    
     private String firstName;
     
     private String lastName;
@@ -22,9 +24,10 @@ public class Customer {
     public Customer() {
     }
     
-    public Customer(String firstName, String lastName, Date registrationDate) {
+    public Customer(String firstName, String lastName, String gender, Date registrationDate) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.gender = gender;
         this.registrationDate = registrationDate;
     }
     
@@ -38,6 +41,10 @@ public class Customer {
     
     public String getLastName() {
         return lastName;
+    }
+    
+    public String getGender() {
+        return gender;
     }
     
     public Date getRegistrationDate() {

@@ -32,12 +32,12 @@ public class DataInit {
         new TransactionTemplate(txManager).execute(new TransactionCallbackWithoutResult() {
             @Override
             protected void doInTransactionWithoutResult(TransactionStatus arg0) {
-                em.persist(new Customer("Homer", "Simpson", date(2014, Calendar.JANUARY, 01)));
-                em.persist(new Customer("Marge", "Simpson", date(2014, Calendar.JANUARY, 07)));
-                em.persist(new Customer("Bart", "Simpson", date(2014, Calendar.JANUARY, 14)));
-                em.persist(new Customer("Lisa", "Simpson", date(2014, Calendar.JANUARY, 21)));
-                em.persist(new Customer("Barney", "Gumble", date(2014, Calendar.JANUARY, 22)));
-                em.persist(new Customer("Moe", "Szyslak", date(2014, Calendar.JANUARY, 23)));
+                em.persist(new Customer("Homer", "Simpson", "M", date(2014, Calendar.JANUARY, 01)));
+                em.persist(new Customer("Marge", "Simpson", "F", date(2014, Calendar.JANUARY, 07)));
+                em.persist(new Customer("Bart", "Simpson", "M", date(2014, Calendar.JANUARY, 14)));
+                em.persist(new Customer("Lisa", "Simpson", "F", date(2014, Calendar.JANUARY, 21)));
+                em.persist(new Customer("Barney", "Gumble", "M", date(2014, Calendar.JANUARY, 22)));
+                em.persist(new Customer("Moe", "Szyslak", "M", date(2014, Calendar.JANUARY, 23)));
             }
         });
     }
