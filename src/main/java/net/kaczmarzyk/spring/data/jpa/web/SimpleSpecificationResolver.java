@@ -48,6 +48,15 @@ class SimpleSpecificationResolver implements HandlerMethodArgumentResolver {
             throw new IllegalStateException(e);
         }
     }
+    
+    boolean canBuildSpecification(NativeWebRequest req, Spec def) {
+        for (String param : def.params()) {
+            if (req.getParameter(param) == null) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     @Override
     public boolean supportsParameter(MethodParameter param) {

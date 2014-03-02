@@ -11,16 +11,16 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
 
 
-public class Conjunction<T> implements Specification<T> {
+public class Disjunction<T> implements Specification<T> {
 
-    private Specifications<T> combinedSpecs;
-
-    public Conjunction(Collection<Specification<T>> innerSpecs) {
+    public Specifications<T> combinedSpecs;
+    
+    public Disjunction(Collection<Specification<T>> innerSpecs) {
         for (Specification<T> spec : innerSpecs) {
             if (combinedSpecs == null) {
                 combinedSpecs = Specifications.where(spec);
             } else {
-                combinedSpecs = combinedSpecs.and(spec);
+                combinedSpecs = combinedSpecs.or(spec);
             }
         }
     }

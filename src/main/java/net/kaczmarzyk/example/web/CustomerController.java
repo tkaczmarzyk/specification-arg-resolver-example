@@ -33,7 +33,7 @@ public class CustomerController {
         return customerRepo.findAll(spec);
     }
     
-    @RequestMapping(value = "", params = { "lastName" }) // gender param is not required
+    @RequestMapping(value = "", params = { "lastName" }) // gender param is optional
     @ResponseBody
     public Iterable<Customer> filterCustomersByLastNameAndGender(
             @And({@Spec(params = "lastName", spec = Like.class),

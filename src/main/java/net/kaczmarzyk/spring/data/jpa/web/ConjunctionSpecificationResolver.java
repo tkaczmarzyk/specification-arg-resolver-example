@@ -32,10 +32,8 @@ class ConjunctionSpecificationResolver implements HandlerMethodArgumentResolver 
         
         List<Specification<Object>> innerSpecs = new ArrayList<Specification<Object>>();
         for (Spec innerDef : def.value()) {
-            try {
+            if (specResolver.canBuildSpecification(webRequest, innerDef)) {
                 innerSpecs.add(specResolver.buildSpecification(webRequest, innerDef));
-            } catch (IllegalStateException e) {
-                // ignore
             }
         }
         
