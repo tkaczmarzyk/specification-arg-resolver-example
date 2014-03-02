@@ -4,6 +4,7 @@ import net.kaczmarzyk.example.domain.Customer;
 import net.kaczmarzyk.example.repo.CustomerRepository;
 import net.kaczmarzyk.spring.data.jpa.domain.Like;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.And;
+import net.kaczmarzyk.spring.data.jpa.web.annotation.Or;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,15 @@ public class CustomerController {
     public Iterable<Customer> filterCustomersByLastNameAndGender(
             @And({@Spec(params = "lastName", spec = Like.class),
                 @Spec(params = "gender", spec = Like.class)}) Specification<Customer> spec) {
+
+        return customerRepo.findAll(spec);
+    }
+    
+    @RequestMapping(value = "", params = { "name" })
+    @ResponseBody
+    public Iterable<Customer> filterCustomersByName(
+            @Or({@Spec(path = "firstName", params = "name", spec = Like.class),
+                @Spec(path = "lastName", params = "name", spec = Like.class)}) Specification<Customer> spec) {
 
         return customerRepo.findAll(spec);
     }

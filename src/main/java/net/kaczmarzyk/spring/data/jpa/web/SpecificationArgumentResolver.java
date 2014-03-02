@@ -12,7 +12,8 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 public class SpecificationArgumentResolver implements HandlerMethodArgumentResolver {
 
-    private List<HandlerMethodArgumentResolver> delegates = Arrays.asList(new SimpleSpecificationResolver(), new ConjunctionSpecificationResolver());
+    private List<HandlerMethodArgumentResolver> delegates = Arrays.asList(new SimpleSpecificationResolver(),
+            new ConjunctionSpecificationResolver(), new DisjunctionSpecificationResolver());
     
     @Override
     public Object resolveArgument(MethodParameter param, ModelAndViewContainer mav, NativeWebRequest req,
