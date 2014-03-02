@@ -3,6 +3,7 @@ package net.kaczmarzyk.example.web;
 import net.kaczmarzyk.example.domain.Customer;
 import net.kaczmarzyk.example.repo.CustomerRepository;
 import net.kaczmarzyk.spring.data.jpa.domain.DateBefore;
+import net.kaczmarzyk.spring.data.jpa.domain.DateBetween;
 import net.kaczmarzyk.spring.data.jpa.domain.Like;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.And;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.Or;
@@ -55,8 +56,16 @@ public class CustomerController {
     
     @RequestMapping(value = "", params = { "registeredBefore" })
     @ResponseBody
-    public Iterable<Customer> findCustomers(
+    public Iterable<Customer> findCustomersRegisteredBefore(
             @Spec(path = "registrationDate", params = "registeredBefore", config = "yyyy-MM-dd", spec = DateBefore.class) Specification<Customer> spec) {
+
+        return customerRepo.findAll(spec);
+    }
+    
+    @RequestMapping(value = "", params = { "registeredAfter", "registeredBefore" })
+    @ResponseBody
+    public Iterable<Customer> findCustomersByRegistrationDate(
+            @Spec(path = "registrationDate", params = {"registeredAfter", "registeredBefore"}, config = "yyyy-MM-dd", spec = DateBetween.class) Specification<Customer> spec) {
 
         return customerRepo.findAll(spec);
     }
