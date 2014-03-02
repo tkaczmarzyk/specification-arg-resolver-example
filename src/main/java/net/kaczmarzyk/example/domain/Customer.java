@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 public class Customer {
     
@@ -18,6 +20,7 @@ public class Customer {
     
     private String lastName;
     
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date registrationDate;
     
     

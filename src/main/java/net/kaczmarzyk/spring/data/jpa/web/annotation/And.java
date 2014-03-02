@@ -10,5 +10,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.PARAMETER)
 public @interface And {
 
-    Spec[] value();
+    Spec[] value() default {};
+    
+    Or[] operands() default {};
 }

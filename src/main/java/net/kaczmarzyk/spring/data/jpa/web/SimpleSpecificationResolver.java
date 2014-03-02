@@ -24,6 +24,7 @@ class SimpleSpecificationResolver implements HandlerMethodArgumentResolver {
         return buildSpecification(req, def);
     }
 
+    @SuppressWarnings("unchecked")
     Specification<Object> buildSpecification(NativeWebRequest req, Spec def) {
         try {
             Collection<String> args = new ArrayList<String>();
@@ -33,15 +34,21 @@ class SimpleSpecificationResolver implements HandlerMethodArgumentResolver {
                     args.add(paramValue);
                 }
             }
+            String[] argsArray = args.toArray(new String[args.size()]);
             
             String path = def.path();
             if (StringUtils.isEmpty(path)) {
                 path = def.params()[0];
             }
             
-            @SuppressWarnings("unchecked")
-            Specification<Object> spec = def.spec().getConstructor(String.class, String[].class)
-                    .newInstance(path, args.toArray(new String[args.size()]));
+            Specification<Object> spec;
+            if (def.config().length == 0) {
+                spec = def.spec().getConstructor(String.class, String[].class)
+                        .newInstance(path, argsArray);
+            } else {
+                spec = def.spec().getConstructor(String.class, String[].class, String[].class)
+                        .newInstance(path, argsArray, def.config());
+            }
             
             return spec;
         } catch (Exception e) {

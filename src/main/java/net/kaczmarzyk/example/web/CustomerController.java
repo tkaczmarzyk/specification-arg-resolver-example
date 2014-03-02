@@ -2,6 +2,7 @@ package net.kaczmarzyk.example.web;
 
 import net.kaczmarzyk.example.domain.Customer;
 import net.kaczmarzyk.example.repo.CustomerRepository;
+import net.kaczmarzyk.spring.data.jpa.domain.DateBefore;
 import net.kaczmarzyk.spring.data.jpa.domain.Like;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.And;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.Or;
@@ -48,6 +49,14 @@ public class CustomerController {
     public Iterable<Customer> filterCustomersByName(
             @Or({@Spec(path = "firstName", params = "name", spec = Like.class),
                 @Spec(path = "lastName", params = "name", spec = Like.class)}) Specification<Customer> spec) {
+
+        return customerRepo.findAll(spec);
+    }
+    
+    @RequestMapping(value = "", params = { "registeredBefore" })
+    @ResponseBody
+    public Iterable<Customer> findCustomers(
+            @Spec(path = "registrationDate", params = "registeredBefore", config = "yyyy-MM-dd", spec = DateBefore.class) Specification<Customer> spec) {
 
         return customerRepo.findAll(spec);
     }

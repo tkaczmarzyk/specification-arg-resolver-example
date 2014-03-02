@@ -14,6 +14,8 @@ public @interface Spec {
 
     String[] params() default {};
     
+    String[] config() default {};
+    
     String path() default "";
     
     @SuppressWarnings("rawtypes")
