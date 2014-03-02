@@ -29,6 +29,20 @@ public class DisjunctionSpecificationResolver implements HandlerMethodArgumentRe
 
         Or def = param.getParameterAnnotation(Or.class);
         
+        return buildSpecification(webRequest, def);
+    }
+
+    boolean canBuildSpecification(NativeWebRequest webRequest, Or def) {
+        // check if at least 1 inner spec is resolvable
+        for (Spec innerDef : def.value()) {
+            if (specResolver.canBuildSpecification(webRequest, innerDef)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    Specification<Object> buildSpecification(NativeWebRequest webRequest, Or def) {
         List<Specification<Object>> innerSpecs = new ArrayList<Specification<Object>>();
         for (Spec innerDef : def.value()) {
             if (specResolver.canBuildSpecification(webRequest, innerDef)) {

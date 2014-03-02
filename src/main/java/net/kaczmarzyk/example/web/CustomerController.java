@@ -69,4 +69,15 @@ public class CustomerController {
 
         return customerRepo.findAll(spec);
     }
+    
+    @RequestMapping(value = "", params = { "gender", "name" })
+    @ResponseBody
+    public Iterable<Customer> findGoldenCustomers(
+            @And(value = { @Spec(params = "gender", spec = Like.class)},
+                operands = { @Or({
+                    @Spec(params="name", path="firstName", spec=Like.class),
+                    @Spec(params="name", path="lastName", spec=Like.class)})}) Specification<Customer> spec) {
+
+        return customerRepo.findAll(spec);
+    }
 }

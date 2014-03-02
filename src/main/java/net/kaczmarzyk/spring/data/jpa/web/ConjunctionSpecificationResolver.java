@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.kaczmarzyk.spring.data.jpa.domain.Conjunction;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.And;
+import net.kaczmarzyk.spring.data.jpa.web.annotation.Or;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
 
 import org.springframework.core.MethodParameter;
@@ -18,6 +19,8 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 class ConjunctionSpecificationResolver implements HandlerMethodArgumentResolver {
 
     private SimpleSpecificationResolver specResolver = new SimpleSpecificationResolver();
+    private DisjunctionSpecificationResolver orResolver = new DisjunctionSpecificationResolver();
+    
     
     @Override
     public boolean supportsParameter(MethodParameter param) {
@@ -34,6 +37,11 @@ class ConjunctionSpecificationResolver implements HandlerMethodArgumentResolver 
         for (Spec innerDef : def.value()) {
             if (specResolver.canBuildSpecification(webRequest, innerDef)) {
                 innerSpecs.add(specResolver.buildSpecification(webRequest, innerDef));
+            }
+        }
+        for (Or innerOr : def.operands()) {
+            if (orResolver.canBuildSpecification(webRequest, innerOr)) {
+                innerSpecs.add(orResolver.buildSpecification(webRequest, innerOr));
             }
         }
         
