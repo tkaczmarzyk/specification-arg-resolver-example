@@ -11,6 +11,7 @@ import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -72,12 +73,24 @@ public class CustomerController {
     
     @RequestMapping(value = "", params = { "gender", "name" })
     @ResponseBody
-    public Iterable<Customer> findGoldenCustomers(
+    public Iterable<Customer> findCustomersByGenderAndName(
             @And(value = { @Spec(path = "gender", spec = Like.class)},
                 and = { @Or({
                     @Spec(params="name", path="firstName", spec=Like.class),
                     @Spec(params="name", path="lastName", spec=Like.class)})}) Specification<Customer> spec) {
 
+        return customerRepo.findAll(spec);
+    }
+    
+    @RequestMapping(value = "", params = { "registeredBefore", "name" })
+    @ResponseBody
+    public Iterable<Customer> findCustomersByRegistrationDateAndName(
+            @Spec(path="registrationDate", params="registeredBefore", spec=DateBefore.class) Specification<Customer> registrationDateSpec,
+            @Or({@Spec(params="name", path="firstName", spec=Like.class),
+                @Spec(params="name", path="lastName", spec=Like.class)}) Specification<Customer> nameSpec) {
+
+        Specification<Customer> spec = Specifications.where(registrationDateSpec).and(nameSpec);
+        
         return customerRepo.findAll(spec);
     }
 }
