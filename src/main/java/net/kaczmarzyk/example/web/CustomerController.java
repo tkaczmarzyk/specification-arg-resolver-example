@@ -31,7 +31,7 @@ public class CustomerController {
     @RequestMapping(value = "", params = { "firstName" })
     @ResponseBody
     public Iterable<Customer> filterCustomersByFirstName(
-            @Spec(params = "firstName", spec = Like.class) Specification<Customer> spec) {
+            @Spec(path = "firstName", spec = Like.class) Specification<Customer> spec) {
 
         return customerRepo.findAll(spec);
     }
@@ -39,8 +39,8 @@ public class CustomerController {
     @RequestMapping(value = "", params = { "lastName" }) // gender param is optional
     @ResponseBody
     public Iterable<Customer> filterCustomersByLastNameAndGender(
-            @And({@Spec(params = "lastName", spec = Like.class),
-                @Spec(params = "gender", spec = Like.class)}) Specification<Customer> spec) {
+            @And({@Spec(path = "lastName", spec = Like.class),
+                @Spec(path = "gender", spec = Like.class)}) Specification<Customer> spec) {
 
         return customerRepo.findAll(spec);
     }
@@ -73,8 +73,8 @@ public class CustomerController {
     @RequestMapping(value = "", params = { "gender", "name" })
     @ResponseBody
     public Iterable<Customer> findGoldenCustomers(
-            @And(value = { @Spec(params = "gender", spec = Like.class)},
-                operands = { @Or({
+            @And(value = { @Spec(path = "gender", spec = Like.class)},
+                and = { @Or({
                     @Spec(params="name", path="firstName", spec=Like.class),
                     @Spec(params="name", path="lastName", spec=Like.class)})}) Specification<Customer> spec) {
 
