@@ -6,6 +6,7 @@ import net.kaczmarzyk.spring.data.jpa.domain.DateBefore;
 import net.kaczmarzyk.spring.data.jpa.domain.DateBetween;
 import net.kaczmarzyk.spring.data.jpa.domain.Like;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.And;
+import net.kaczmarzyk.spring.data.jpa.web.annotation.Conjunction;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.Or;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
 
@@ -74,8 +75,8 @@ public class CustomerController {
     @RequestMapping(value = "", params = { "gender", "name" })
     @ResponseBody
     public Iterable<Customer> findCustomersByGenderAndName(
-            @And(value = { @Spec(path = "gender", spec = Like.class)},
-                and = { @Or({
+            @Conjunction(and = { @Spec(path = "gender", spec = Like.class)},
+                value = { @Or({
                     @Spec(params="name", path="firstName", spec=Like.class),
                     @Spec(params="name", path="lastName", spec=Like.class)})}) Specification<Customer> spec) {
 
