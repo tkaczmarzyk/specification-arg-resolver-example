@@ -15,7 +15,7 @@ It is an executable jar with embedded H2 db, so just build it with Maven and exp
 
     it will perform a soft delete, which you can verify by getting all customers again -- the deleted customer will be still there, but with `deleted = true` flag. As you will see in subsequent points, specification-based query methods will filter it out.
 
-3. Filter customers (not deleted only) by first name and gender (optionally):
+3. Filter customers (include only not deleted ones) by first name and gender (optionally):
 
     curl http://localhost:8080/customers?firstName=ar
     curl 'http://localhost:8080/customers?firstName=ar&gender=MALE'
