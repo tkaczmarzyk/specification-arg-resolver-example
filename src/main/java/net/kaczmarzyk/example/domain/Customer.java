@@ -23,6 +23,8 @@ public class Customer {
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date registrationDate;
     
+    private boolean deleted;
+    
     
     public Customer() {
     }
@@ -53,4 +55,12 @@ public class Customer {
     public Date getRegistrationDate() {
         return registrationDate;
     }
+    
+    public void delete() {
+    	this.deleted = true;
+    }
+    
+    public boolean isDeleted() {
+		return deleted;
+	}
 }
